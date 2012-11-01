@@ -32,7 +32,7 @@ def remove_duplicates(graphs):
   outgraph = graphs[1]
   
   for V1 in ingraph.keys():
-    if V1 in ingraph:
+    if (V1 in ingraph) & (V1 in outgraph):
       check_remove_node(ingraph, outgraph, V1)
 
 def check_remove_node(ingraph, outgraph, node):
