@@ -6,12 +6,8 @@ SEPARATOR = '\t'  # The character separating nodes in a line of input
 def main(source):
   edges = read_graph(source)
   graphs = parse_graph(edges)
-  print(graphs[0])
-  print(graphs[1])
   remove_duplicates(graphs)
-  print(graphs[0])
-  print(graphs[1])
-  print_results(graphs)
+  print_results(graphs[0])
 
 def read_graph(source): 
   # Iteratre through each line of stdin, stripping trailing whitespace and
@@ -53,7 +49,10 @@ def check_remove_node(ingraph, outgraph, node):
           ingraph.pop(inNode)
           outgraph.pop(outNode)
 
-def print_results(graphs):
+def print_results(graph):
+  for k, v in graph.items():
+    for node in v:
+      print k + SEPARATOR + node
 
 
 if __name__ == "__main__":
