@@ -7,10 +7,16 @@ def read_graph(source):
   # Iteratre through each line of stdin, stripping trailing whitespace and
   # splitting on separator 
   edges = [line.rstrip(string.whitespace).split(SEPARATOR) for line in source]
-  print edges
+  parse_graph(edges)
 
 def parse_graph(edges):
-  print "Hello"
+  # initialize empty graph as a mapping from node to edge list
+  # for each edge (V1, V2) in edges
+  #   if V1 is in graph
+  #     insert V2 into graph.get(V1)
+  #   else
+  #     create new kv listing mapping from V1 to a new list containing V2
+
 
 def remove_duplicates(graph):
   print "Hello"
