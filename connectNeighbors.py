@@ -1,7 +1,13 @@
 import sys
+import string
+
+SEPARATOR = '\t'  # The character separating nodes in a line of input
 
 def read_graph(): 
-  print "Hello"
+  # Iteratre through each line of stdin, stripping trailing whitespace and
+  # splitting on separator 
+  edges = [line.rstrip(string.whitespace).split(SEPARATOR) for line in sys.stdin]
+  print edges
 
 def parse_graph(edges):
   print "Hello"
