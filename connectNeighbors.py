@@ -16,7 +16,14 @@ def parse_graph(edges):
   #     insert V2 into graph.get(V1)
   #   else
   #     create new kv listing mapping from V1 to a new list containing V2
+  graph = {}
+  for [V1, V2] in edges:
+    if V1 in graph:
+      graph[V1].append(V2)
+    else:
+      graph[V1] = [V2]
 
+  print graph
 
 def remove_duplicates(graph):
   print "Hello"
