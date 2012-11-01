@@ -3,11 +3,27 @@ import string
 
 SEPARATOR = '\t'  # The character separating nodes in a line of input
 
+class Graph: 
+  def __init__():
+    __init__(self, {}, {})
+
+  def __init__(self, ingraph, outgraph):
+    self.ingraph = ingraph
+    self.outgraph = outgraph
+
+  def __str__(self):
+    retval = ""
+    for k, v in self.ingraph.items():
+      for node in v:
+        retval += k + SEPARATOR + node + '\n'
+    return retval
+
+
 def main(source):
   edges = read_graph(source)
-  graphs = parse_graph(edges)
-  remove_duplicates(graphs)
-  print_results(graphs[0])
+  graph = parse_graph(edges)
+  remove_duplicates(graph)
+  sys.stdout.write(graph.__str__())  # Using sys to avoid auto newline of print
 
 def read_graph(source): 
   # Iteratre through each line of stdin, stripping trailing whitespace and
@@ -25,35 +41,26 @@ def parse_graph(edges):
     # If V1 is in graph, dereference the list and append, otherwise insert V1
     # with an empty list as its value and append to that new empty list
 
-  return [outgraph, ingraph] 
+  return Graph(ingraph, outgraph)
 
-def remove_duplicates(graphs):
-  ingraph = graphs[0]
-  outgraph = graphs[1]
-  
-  for V1 in ingraph.keys():
-    if (V1 in ingraph) & (V1 in outgraph):
-      check_remove_node(ingraph, outgraph, V1)
+def remove_duplicates(graph):
+  for V1 in graph.ingraph.keys():
+    if (V1 in graph.ingraph) & (V1 in graph.outgraph):
+      check_remove_node(graph, V1)
 
-def check_remove_node(ingraph, outgraph, node):
-    if len(ingraph[node]) == len(outgraph[node]) == 1:
-      inNode = ingraph.pop(node).pop()
-      outNode = outgraph.pop(node).pop()
-      ingraph[outNode].remove(node)
-      outgraph[inNode].remove(node)
+def check_remove_node(graph, node):
+    if len(graph.ingraph[node]) == len(graph.outgraph[node]) == 1:
+      inNode = graph.ingraph.pop(node).pop()
+      outNode = graph.outgraph.pop(node).pop()
+      graph.ingraph[outNode].remove(node)
+      graph.outgraph[inNode].remove(node)
       if inNode != outNode:
-        ingraph[outNode].add(inNode)
-        outgraph[inNode].add(outNode)
+        graph.ingraph[outNode].add(inNode)
+        graph.outgraph[inNode].add(outNode)
       else:
-        if len(ingraph[inNode]) == len(outgraph[inNode]) == 0:
-          ingraph.pop(inNode)
-          outgraph.pop(outNode)
-
-def print_results(graph):
-  for k, v in graph.items():
-    for node in v:
-      print k + SEPARATOR + node
-
+        if len(graph.ingraph[inNode]) == len(graph.outgraph[inNode]) == 0:
+          graph.ingraph.pop(inNode)
+          graph.outgraph.pop(outNode)
 
 if __name__ == "__main__":
   main(sys.stdin)
