@@ -27,6 +27,10 @@ def parse_graph(edges):
 
 def remove_duplicates(graph):
   # Psuedo code, I think this will end up being O(vertices*edges)
+  # for each key in graph
+  #   if size of corresponding list == 1
+  #     if key appears once as a value
+  #       remove the key and join neighbors
 
 def print_results(graph):
   print "Hello"
