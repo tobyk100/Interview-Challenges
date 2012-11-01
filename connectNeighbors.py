@@ -5,10 +5,13 @@ SEPARATOR = '\t'  # The character separating nodes in a line of input
 
 def main(source):
   edges = read_graph(source)
-  graph = parse_graph(edges)
-  print(graph)
-  remove_duplicates(graph)
-  print_results(graph)
+  graphs = parse_graph(edges)
+  print(graphs[0])
+  print(graphs[1])
+  remove_duplicates(graphs)
+  print(graphs[0])
+  print(graphs[1])
+  print_results(graphs)
 
 def read_graph(source): 
   # Iteratre through each line of stdin, stripping trailing whitespace and
@@ -18,28 +21,40 @@ def read_graph(source):
   return edges
 
 def parse_graph(edges):
-  graph = {}
+  ingraph = {}
+  outgraph = {}
   for [V1, V2] in edges:
-    graph.setdefault(V1, set()).add(V2)
+    outgraph.setdefault(V1, set()).add(V2)
+    ingraph.setdefault(V2, set()).add(V1)
     # If V1 is in graph, dereference the list and append, otherwise insert V1
     # with an empty list as its value and append to that new empty list
 
-  return graph
+  return [outgraph, ingraph] 
 
-def remove_duplicates(graph):
-  # Pseudo code for edge inmap, outmap solution
-  #   for each V1 in inmap.keys()
-  #     if inmap[V1].size() == 1 && outmap[V1].size() == 1
-  #       inNode = inmap[V1].pop()
-  #       outNode = outmap[V1].pop()
-  #       inmap[outNode].add(inNode)
-  #       outmap[inNode].add(outNode)
-  #       remove V1 from inmap and outmap
-
+def remove_duplicates(graphs):
+  ingraph = graphs[0]
+  outgraph = graphs[1]
   
+  for V1 in ingraph.keys():
+    if V1 in ingraph:
+      check_remove_node(ingraph, outgraph, V1)
 
-def print_results(graph):
-  print "Hello"
+def check_remove_node(ingraph, outgraph, node):
+    if len(ingraph[node]) == len(outgraph[node]) == 1:
+      inNode = ingraph.pop(node).pop()
+      outNode = outgraph.pop(node).pop()
+      ingraph[outNode].remove(node)
+      outgraph[inNode].remove(node)
+      if inNode != outNode:
+        ingraph[outNode].add(inNode)
+        outgraph[inNode].add(outNode)
+      else:
+        if len(ingraph[inNode]) == len(outgraph[inNode]) == 0:
+          ingraph.pop(inNode)
+          outgraph.pop(outNode)
+
+def print_results(graphs):
+
 
 if __name__ == "__main__":
   main(sys.stdin)
