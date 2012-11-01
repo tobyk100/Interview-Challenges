@@ -10,18 +10,11 @@ def read_graph(source):
   parse_graph(edges)
 
 def parse_graph(edges):
-  # initialize empty graph as a mapping from node to edge list
-  # for each edge (V1, V2) in edges
-  #   if V1 is in graph
-  #     insert V2 into graph.get(V1)
-  #   else
-  #     create new kv listing mapping from V1 to a new list containing V2
   graph = {}
   for [V1, V2] in edges:
-    if V1 in graph:
-      graph[V1].append(V2)
-    else:
-      graph[V1] = [V2]
+    graph.setdefault(V1, []).append(V2)
+    # If V1 is in graph, dereference the list and append, otherwise insert V1
+    # with an empty list as its value and append to that new empty list
 
   print graph
 
