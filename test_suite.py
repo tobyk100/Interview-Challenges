@@ -35,5 +35,22 @@ class ConnectNeighborsTestCase(unittest.TestCase):
     g.connect_neighbors()
     self.assertEqual(g.__str__(), output)
 
+  def test_three(self):
+    output = self.get_expected('3')
+    g = self.get_graph('3')
+    g.connect_neighbors()
+    self.assertEqual(g.__str__(), output)
+  def test_four(self):
+    output = self.get_expected('4')
+    g = self.get_graph('4')
+    g.connect_neighbors()
+    self.assertEqual(g.__str__(), output)
+
+  def test_five(self):
+    output = self.get_expected('5')
+    g = self.get_graph('5')
+    g.connect_neighbors()
+    self.assertEqual(g.__str__(), output)
+
 if __name__ == '__main__':
   unittest.main()
