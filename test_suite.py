@@ -20,19 +20,19 @@ class ConnectNeighborsTestCase(unittest.TestCase):
   def test_zero(self):
     output = self.get_expected('0')
     g = self.get_graph('0')
-    g.remove_duplicates()
+    g.connect_neighbors()
     self.assertEqual(g.__str__(), output)
 
   def test_one(self):
     output = self.get_expected('1')
     g = self.get_graph('1')
-    g.remove_duplicates()
+    g.connect_neighbors()
     self.assertEqual(g.__str__(), output)
 
   def test_two(self):
     output = self.get_expected('2')
     g = self.get_graph('2')
-    g.remove_duplicates()
+    g.connect_neighbors()
     self.assertEqual(g.__str__(), output)
 
 if __name__ == '__main__':
