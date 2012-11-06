@@ -1,0 +1,35 @@
+From f48d1738a1ccc64252670318b82eaa42e27281f6 Mon Sep 17 00:00:00 2001
+From: Tobias Kahan <tobyk100@uw.edu>
+Date: Thu, 1 Nov 2012 11:55:34 -0700
+Subject: [PATCH 04/17] psuedo code for parse graph
+
+---
+ connectNeighbors.py | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/connectNeighbors.py b/connectNeighbors.py
+index b76c197..5054a46 100755
+--- a/connectNeighbors.py
++++ b/connectNeighbors.py
+@@ -7,10 +7,16 @@ def read_graph(source):
+   # Iteratre through each line of stdin, stripping trailing whitespace and
+   # splitting on separator 
+   edges = [line.rstrip(string.whitespace).split(SEPARATOR) for line in source]
+-  print edges
++  parse_graph(edges)
+ 
+ def parse_graph(edges):
+-  print "Hello"
++  # initialize empty graph as a mapping from node to edge list
++  # for each edge (V1, V2) in edges
++  #   if V1 is in graph
++  #     insert V2 into graph.get(V1)
++  #   else
++  #     create new kv listing mapping from V1 to a new list containing V2
++
+ 
+ def remove_duplicates(graph):
+   print "Hello"
+-- 
+1.7.11.7
+

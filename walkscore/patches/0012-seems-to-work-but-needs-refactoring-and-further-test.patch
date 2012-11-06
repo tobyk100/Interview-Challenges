@@ -1,0 +1,26 @@
+From 8a462e7a29fd5ea5f4d32fa70ce9a993499eaf88 Mon Sep 17 00:00:00 2001
+From: Tobias Kahan <tobyk100@uw.edu>
+Date: Thu, 1 Nov 2012 16:11:28 -0700
+Subject: [PATCH 12/17] seems to work but needs refactoring and further
+ testing
+
+---
+ connectNeighbors.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/connectNeighbors.py b/connectNeighbors.py
+index 90612d6..b2ee1bf 100755
+--- a/connectNeighbors.py
++++ b/connectNeighbors.py
+@@ -32,7 +32,7 @@ def remove_duplicates(graphs):
+   outgraph = graphs[1]
+   
+   for V1 in ingraph.keys():
+-    if V1 in ingraph:
++    if (V1 in ingraph) & (V1 in outgraph):
+       check_remove_node(ingraph, outgraph, V1)
+ 
+ def check_remove_node(ingraph, outgraph, node):
+-- 
+1.7.11.7
+

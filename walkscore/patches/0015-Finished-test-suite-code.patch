@@ -1,0 +1,92 @@
+From ef832074e8530dbef73e1904d3a7e77c65566224 Mon Sep 17 00:00:00 2001
+From: Tobias Kahan <tobyk100@uw.edu>
+Date: Thu, 1 Nov 2012 17:16:58 -0700
+Subject: [PATCH 15/17] Finished test suite code
+
+---
+ connectNeighbors.pyc | Bin 0 -> 2780 bytes
+ test_suite.py        |  39 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 39 insertions(+)
+ create mode 100644 connectNeighbors.pyc
+ create mode 100644 test_suite.py
+
+diff --git a/connectNeighbors.pyc b/connectNeighbors.pyc
+new file mode 100644
+index 0000000000000000000000000000000000000000..d2b9caab97453bde01c9ab742d47555acbcccc01
+GIT binary patch
+literal 2780
+zcmcguU2hvj6uq-+J9U&)p@oD%DT+!YBS_r@sk~IEB}PbnFlAj4H6k5tcc=0CW7po9
+zd`Zbu_y_zY_(e#(!nt>B$3eU%_U`qanccbfo;hd6;a|&(f2{oeDxt|I#P4(5mU~iM
+ziUvgcGhflZqBNlWfYOlCJCs)FH=;|TH~VN;xv^iNv?flKOpVe7>IYP6G8HmJy#=~d
+zq;i?N)2Jg(_76U7tKimM752w69(89qasT(Y?bk4vfiobPA4w>25IUHK4kw|bPNRYs
+zk^qJszISokK1@b*PNZj!qSJ`Z6}1jt(ysws;0pPP9<G4S19Bl3c^OczLg(;N0uL)0
+z4zCXfGCW?VJ>=PGaQ^KE*X0&CbbiR?xjXQSBj+27XjtP?^FBTrI0TcX{Kjc2g*Yz2
+zn!$U4$fSqHI<D=PZU3{=K!e2CH}IO>VrXnLJF!hyygTb}KY7v|l?CDrhsdFM5)b+|
+zDN57agSXXTcWbvuF}AhajRymhADU)T<he;)+hm8`cSUI*kIp1>t+PCHT60B~v!}4G
+z>gvAwTqRua6m>!TB|1)br+6wxvURXS7m6YGDEDhqKOp$e%M}^GBH(d=JzgPP^MEoO
+z5r-0B`sU0=9Ms)|(Mi`NeO;Piacp#6q^7}RQH>1)e`{EMfMAm}(xcHJOJZm23OX(4
+zLTXh#P&0}$M+C4<)a8VtU>Fcs2LzKg*y!7p5V9(^SpsnKfC5!+Oi4M#ttYevof&12
+z_doq;3W>q!btbmQ+CK}@&-Y=9koqB&f6l*CWo=BwAVOL1q0b9syrHg&z--rw@NHkj
+z-z?w%En<FhPJT8q?;k8KR!Tc#8bH!mS4LH21NsU(JSq6GQ898n?3W{AutiwH3Ly~_
+zMIOoWHoHu2NR<8CB22V|m>=P`t1zUVs*myg5Z@)-Yr#{s;swU(&-n5)8sGs0b=s2U
+zkyRC$eRH*+oqoXpwhkW9g{(DiYXPmDS7;6RuYHTx$6wOkc$N0RgbB7-K_tTfFACUR
+zavV8xW@sI6;GG{{y@+1C{wb1O&g1EkcE|C+@ymU&#}Vt{wy>1-)7rXH>qm&|_bF9_
+z<d)S#<+;MUf!29EG+H~}$h007>Cphqh?~(e8(x*@6PT;q#k<*^HbOvRAT4KEQ}uei
+zTECkxo=j-o(sps%XE0uAkQi1GSbHh6@S%FB2vmYBpmCNbx@vNqVPl;;qL}UiL22St
+z%LyYH2n7C2I<uk=>r&`K4x*D1Jn+zPPJXyJDiagQe9RO%<F1gqS<pnu!#K;oLSzAs
+zpq(YP=yk(M^3fr{?Qn9k&$bRWCg)KPMaZ!ZEV1QaIyi3w8ZYqQ0$_LTL>HQaVVU1s
+z*vk(E#FH+7v7<OKf|JGO?;;kpm(d11Np+Cr9;({{DEbVcw{cs>fx^eZ<V0uCwDxH*
+z;i89ZHra6Ao(qrI;~An)VSH&0e;Tf`7w?AGnA3aab^0C4!QO?zDhIXT{${;aUszKA
+E0);U_rvLx|
+
+literal 0
+HcmV?d00001
+
+diff --git a/test_suite.py b/test_suite.py
+new file mode 100644
+index 0000000..bf0148c
+--- /dev/null
++++ b/test_suite.py
+@@ -0,0 +1,39 @@
++import unittest, os
++from connectNeighbors import read_edges, Graph 
++
++input_dir = 'input'
++output_dir = 'output'
++
++class ConnectNeighborsTestCase(unittest.TestCase):
++  def get_expected(self, filename):
++    output = ""
++    for line in open(os.path.join(output_dir, filename)):
++      output += line
++    return output
++
++  def get_graph(self, filename):
++    edges = read_edges(open(os.path.join(input_dir, filename)))
++    g = Graph(edges)
++
++    return g
++
++  def test_zero(self):
++    output = self.get_expected('0')
++    g = self.get_graph('0')
++    g.remove_duplicates()
++    self.assertEqual(g.__str__(), output)
++
++  def test_one(self):
++    output = self.get_expected('1')
++    g = self.get_graph('1')
++    g.remove_duplicates()
++    self.assertEqual(g.__str__(), output)
++
++  def test_two(self):
++    output = self.get_expected('2')
++    g = self.get_graph('2')
++    g.remove_duplicates()
++    self.assertEqual(g.__str__(), output)
++
++if __name__ == '__main__':
++  unittest.main()
+-- 
+1.7.11.7
+

@@ -1,0 +1,143 @@
+From a9d6a852411292f497e7aaa1245811babdc7af90 Mon Sep 17 00:00:00 2001
+From: Tobias Kahan <tobyk100@uw.edu>
+Date: Thu, 1 Nov 2012 17:34:45 -0700
+Subject: [PATCH 16/17] changed method name from deleteDuplicates to
+ connect_neighbors since that is what it actually does
+
+---
+ connectNeighbors.py  |  35 +++++++++++++++++++++++------------
+ connectNeighbors.pyc | Bin 2780 -> 0 bytes
+ test_suite.py        |   6 +++---
+ 3 files changed, 26 insertions(+), 15 deletions(-)
+ delete mode 100644 connectNeighbors.pyc
+
+diff --git a/connectNeighbors.py b/connectNeighbors.py
+index 2357283..0a51c45 100755
+--- a/connectNeighbors.py
++++ b/connectNeighbors.py
+@@ -3,7 +3,13 @@ import string
+ 
+ SEPARATOR = '\t'  # The character separating nodes in a line of input
+ 
++# The Graph class represents a directed graph
+ class Graph: 
++  # Create a new instance of Graph.
++  # Parameters
++  #  - edges: a set of lines where each line represents an edge. Each line
++  #           contains two nodes separated by a tab where there is an edge
++  #           from the first node to the second.
+   def __init__(self, edges):
+     # If V1 is in graph, dereference the list and append, otherwise insert V1
+     # with an empty list as its value and append to that new empty list
+@@ -13,24 +19,29 @@ class Graph:
+       self.ingraph.setdefault(V1, set()).add(V2)
+       self.outgraph.setdefault(V2, set()).add(V1)
+ 
+-  def remove_duplicates(self):
++  # Connects neighbors in the instance object. Removes any node such that
++  # the node has exactly one incoming edge and one outgoing edge. 
++  def connect_neighbors(self):
+     for V1 in self.ingraph.keys():
+-      if (V1 in self.ingraph) & (V1 in self.outgraph):
++      if (V1 in self.ingraph) & (V1 in self.outgraph):  # Since we are concurrently
++                                                        # modifying the graphs, make
++                                                        # sure V1 is still there
++
+         self._check_remove_node(V1)
+ 
+   def _check_remove_node(self, node):
+       if len(self.ingraph[node]) == len(self.outgraph[node]) == 1:
+-        inNode = self.ingraph.pop(node).pop()
+-        outNode = self.outgraph.pop(node).pop()
+-        self.ingraph[outNode].remove(node)
++        inNode = self.ingraph.pop(node).pop()   # Pull out node's value set and
++        outNode = self.outgraph.pop(node).pop() # it's one member
++        self.ingraph[outNode].remove(node)  # Remove node from graphs
+         self.outgraph[inNode].remove(node)
+         if inNode != outNode:
+-          self.ingraph[outNode].add(inNode)
+-          self.outgraph[inNode].add(outNode)
+-        else:
+-          if len(self.ingraph[inNode]) == len(self.outgraph[inNode]) == 0:
+-            self.ingraph.pop(inNode)
+-            self.outgraph.pop(outNode)
++          self.ingraph[outNode].add(inNode)  # create edge between two remaining
++          self.outgraph[inNode].add(outNode) # nodes
++        elif len(self.ingraph[inNode]) == len(self.outgraph[inNode]) == 0:
++          # Node we removed cause another node to have no edges (disconect)
++          self.ingraph.pop(inNode)
++          self.outgraph.pop(outNode)
+ 
+   def __str__(self):
+     retval = ""
+@@ -43,7 +54,7 @@ class Graph:
+ def main(source):
+   edges = read_edges(source)
+   graph = Graph(edges)
+-  graph.remove_duplicates()
++  graph.connect_neighbors()
+   sys.stdout.write(graph.__str__())  # Using sys to avoid auto newline of print
+ 
+ def read_edges(source): 
+diff --git a/connectNeighbors.pyc b/connectNeighbors.pyc
+deleted file mode 100644
+index d2b9caab97453bde01c9ab742d47555acbcccc01..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 2780
+zcmcguU2hvj6uq-+J9U&)p@oD%DT+!YBS_r@sk~IEB}PbnFlAj4H6k5tcc=0CW7po9
+zd`Zbu_y_zY_(e#(!nt>B$3eU%_U`qanccbfo;hd6;a|&(f2{oeDxt|I#P4(5mU~iM
+ziUvgcGhflZqBNlWfYOlCJCs)FH=;|TH~VN;xv^iNv?flKOpVe7>IYP6G8HmJy#=~d
+zq;i?N)2Jg(_76U7tKimM752w69(89qasT(Y?bk4vfiobPA4w>25IUHK4kw|bPNRYs
+zk^qJszISokK1@b*PNZj!qSJ`Z6}1jt(ysws;0pPP9<G4S19Bl3c^OczLg(;N0uL)0
+z4zCXfGCW?VJ>=PGaQ^KE*X0&CbbiR?xjXQSBj+27XjtP?^FBTrI0TcX{Kjc2g*Yz2
+zn!$U4$fSqHI<D=PZU3{=K!e2CH}IO>VrXnLJF!hyygTb}KY7v|l?CDrhsdFM5)b+|
+zDN57agSXXTcWbvuF}AhajRymhADU)T<he;)+hm8`cSUI*kIp1>t+PCHT60B~v!}4G
+z>gvAwTqRua6m>!TB|1)br+6wxvURXS7m6YGDEDhqKOp$e%M}^GBH(d=JzgPP^MEoO
+z5r-0B`sU0=9Ms)|(Mi`NeO;Piacp#6q^7}RQH>1)e`{EMfMAm}(xcHJOJZm23OX(4
+zLTXh#P&0}$M+C4<)a8VtU>Fcs2LzKg*y!7p5V9(^SpsnKfC5!+Oi4M#ttYevof&12
+z_doq;3W>q!btbmQ+CK}@&-Y=9koqB&f6l*CWo=BwAVOL1q0b9syrHg&z--rw@NHkj
+z-z?w%En<FhPJT8q?;k8KR!Tc#8bH!mS4LH21NsU(JSq6GQ898n?3W{AutiwH3Ly~_
+zMIOoWHoHu2NR<8CB22V|m>=P`t1zUVs*myg5Z@)-Yr#{s;swU(&-n5)8sGs0b=s2U
+zkyRC$eRH*+oqoXpwhkW9g{(DiYXPmDS7;6RuYHTx$6wOkc$N0RgbB7-K_tTfFACUR
+zavV8xW@sI6;GG{{y@+1C{wb1O&g1EkcE|C+@ymU&#}Vt{wy>1-)7rXH>qm&|_bF9_
+z<d)S#<+;MUf!29EG+H~}$h007>Cphqh?~(e8(x*@6PT;q#k<*^HbOvRAT4KEQ}uei
+zTECkxo=j-o(sps%XE0uAkQi1GSbHh6@S%FB2vmYBpmCNbx@vNqVPl;;qL}UiL22St
+z%LyYH2n7C2I<uk=>r&`K4x*D1Jn+zPPJXyJDiagQe9RO%<F1gqS<pnu!#K;oLSzAs
+zpq(YP=yk(M^3fr{?Qn9k&$bRWCg)KPMaZ!ZEV1QaIyi3w8ZYqQ0$_LTL>HQaVVU1s
+z*vk(E#FH+7v7<OKf|JGO?;;kpm(d11Np+Cr9;({{DEbVcw{cs>fx^eZ<V0uCwDxH*
+z;i89ZHra6Ao(qrI;~An)VSH&0e;Tf`7w?AGnA3aab^0C4!QO?zDhIXT{${;aUszKA
+E0);U_rvLx|
+
+diff --git a/test_suite.py b/test_suite.py
+index bf0148c..de81bac 100644
+--- a/test_suite.py
++++ b/test_suite.py
+@@ -20,19 +20,19 @@ class ConnectNeighborsTestCase(unittest.TestCase):
+   def test_zero(self):
+     output = self.get_expected('0')
+     g = self.get_graph('0')
+-    g.remove_duplicates()
++    g.connect_neighbors()
+     self.assertEqual(g.__str__(), output)
+ 
+   def test_one(self):
+     output = self.get_expected('1')
+     g = self.get_graph('1')
+-    g.remove_duplicates()
++    g.connect_neighbors()
+     self.assertEqual(g.__str__(), output)
+ 
+   def test_two(self):
+     output = self.get_expected('2')
+     g = self.get_graph('2')
+-    g.remove_duplicates()
++    g.connect_neighbors()
+     self.assertEqual(g.__str__(), output)
+ 
+ if __name__ == '__main__':
+-- 
+1.7.11.7
+

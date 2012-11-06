@@ -1,0 +1,37 @@
+From abcc40ddf49bfc07c0588c92c21e10a5c944df74 Mon Sep 17 00:00:00 2001
+From: Tobias Kahan <tobyk100@uw.edu>
+Date: Thu, 1 Nov 2012 11:47:44 -0700
+Subject: [PATCH 03/17] Changed read_input so it accepts read source as a
+ parameter so that we can call use this module with
+ different input sources
+
+---
+ connectNeighbors.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/connectNeighbors.py b/connectNeighbors.py
+index f2bf9f1..b76c197 100755
+--- a/connectNeighbors.py
++++ b/connectNeighbors.py
+@@ -3,10 +3,10 @@ import string
+ 
+ SEPARATOR = '\t'  # The character separating nodes in a line of input
+ 
+-def read_graph(): 
++def read_graph(source): 
+   # Iteratre through each line of stdin, stripping trailing whitespace and
+   # splitting on separator 
+-  edges = [line.rstrip(string.whitespace).split(SEPARATOR) for line in sys.stdin]
++  edges = [line.rstrip(string.whitespace).split(SEPARATOR) for line in source]
+   print edges
+ 
+ def parse_graph(edges):
+@@ -19,4 +19,4 @@ def print_results(graph):
+   print "Hello"
+ 
+ if __name__ == "__main__":
+-  read_graph()
++  read_graph(sys.stdin)
+-- 
+1.7.11.7
+

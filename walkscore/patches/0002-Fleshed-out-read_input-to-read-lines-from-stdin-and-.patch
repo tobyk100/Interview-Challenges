@@ -1,0 +1,32 @@
+From 6b4735145ed4c9c9dabe637c91e2b4ad4c88ae60 Mon Sep 17 00:00:00 2001
+From: Tobias Kahan <tobyk100@uw.edu>
+Date: Thu, 1 Nov 2012 11:45:13 -0700
+Subject: [PATCH 02/17] Fleshed out read_input to read lines from stdin and
+ parse into ordered node pairs
+
+---
+ connectNeighbors.py | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/connectNeighbors.py b/connectNeighbors.py
+index 628b79c..f2bf9f1 100755
+--- a/connectNeighbors.py
++++ b/connectNeighbors.py
+@@ -1,7 +1,13 @@
+ import sys
++import string
++
++SEPARATOR = '\t'  # The character separating nodes in a line of input
+ 
+ def read_graph(): 
+-  print "Hello"
++  # Iteratre through each line of stdin, stripping trailing whitespace and
++  # splitting on separator 
++  edges = [line.rstrip(string.whitespace).split(SEPARATOR) for line in sys.stdin]
++  print edges
+ 
+ def parse_graph(edges):
+   print "Hello"
+-- 
+1.7.11.7
+

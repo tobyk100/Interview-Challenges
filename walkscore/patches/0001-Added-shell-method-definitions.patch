@@ -1,0 +1,35 @@
+From 448a27b3dd90aea91dfd2ae1207845f2d2dc9179 Mon Sep 17 00:00:00 2001
+From: Tobias Kahan <tobyk100@uw.edu>
+Date: Thu, 1 Nov 2012 11:25:38 -0700
+Subject: [PATCH 01/17] Added shell method definitions.
+
+---
+ connectNeighbors.py | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+ create mode 100755 connectNeighbors.py
+
+diff --git a/connectNeighbors.py b/connectNeighbors.py
+new file mode 100755
+index 0000000..628b79c
+--- /dev/null
++++ b/connectNeighbors.py
+@@ -0,0 +1,16 @@
++import sys
++
++def read_graph(): 
++  print "Hello"
++
++def parse_graph(edges):
++  print "Hello"
++
++def remove_duplicates(graph):
++  print "Hello"
++
++def print_results(graph):
++  print "Hello"
++
++if __name__ == "__main__":
++  read_graph()
+-- 
+1.7.11.7
+

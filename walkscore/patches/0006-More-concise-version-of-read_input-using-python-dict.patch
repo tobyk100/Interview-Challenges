@@ -1,0 +1,39 @@
+From bcf186412c39b20871edf8bf4703632dcb0115e2 Mon Sep 17 00:00:00 2001
+From: Tobias Kahan <tobyk100@uw.edu>
+Date: Thu, 1 Nov 2012 12:17:32 -0700
+Subject: [PATCH 06/17] More concise version of read_input using python dict
+ methods
+
+---
+ connectNeighbors.py | 13 +++----------
+ 1 file changed, 3 insertions(+), 10 deletions(-)
+
+diff --git a/connectNeighbors.py b/connectNeighbors.py
+index e14b4af..82937ac 100755
+--- a/connectNeighbors.py
++++ b/connectNeighbors.py
+@@ -10,18 +10,11 @@ def read_graph(source):
+   parse_graph(edges)
+ 
+ def parse_graph(edges):
+-  # initialize empty graph as a mapping from node to edge list
+-  # for each edge (V1, V2) in edges
+-  #   if V1 is in graph
+-  #     insert V2 into graph.get(V1)
+-  #   else
+-  #     create new kv listing mapping from V1 to a new list containing V2
+   graph = {}
+   for [V1, V2] in edges:
+-    if V1 in graph:
+-      graph[V1].append(V2)
+-    else:
+-      graph[V1] = [V2]
++    graph.setdefault(V1, []).append(V2)
++    # If V1 is in graph, dereference the list and append, otherwise insert V1
++    # with an empty list as its value and append to that new empty list
+ 
+   print graph
+ 
+-- 
+1.7.11.7
+

@@ -1,0 +1,31 @@
+From 4ae2b07bcb1213f4d5ecfce2de027ed4fa9d5b97 Mon Sep 17 00:00:00 2001
+From: Tobias Kahan <tobyk100@uw.edu>
+Date: Thu, 1 Nov 2012 12:02:24 -0700
+Subject: [PATCH 05/17] first iteration of parse_graph
+
+---
+ connectNeighbors.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/connectNeighbors.py b/connectNeighbors.py
+index 5054a46..e14b4af 100755
+--- a/connectNeighbors.py
++++ b/connectNeighbors.py
+@@ -16,7 +16,14 @@ def parse_graph(edges):
+   #     insert V2 into graph.get(V1)
+   #   else
+   #     create new kv listing mapping from V1 to a new list containing V2
++  graph = {}
++  for [V1, V2] in edges:
++    if V1 in graph:
++      graph[V1].append(V2)
++    else:
++      graph[V1] = [V2]
+ 
++  print graph
+ 
+ def remove_duplicates(graph):
+   print "Hello"
+-- 
+1.7.11.7
+

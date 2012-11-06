@@ -1,0 +1,91 @@
+From b977df2164a1feb077ace23df06f74451bea585a Mon Sep 17 00:00:00 2001
+From: Tobias Kahan <tobyk100@uw.edu>
+Date: Thu, 1 Nov 2012 15:59:20 -0700
+Subject: [PATCH 10/17] restarted after class, changed logic to support
+ removing one node cycles.
+
+---
+ connectNeighbors.py | 53 ++++++++++++++++++++++++++++++++++-------------------
+ 1 file changed, 34 insertions(+), 19 deletions(-)
+
+diff --git a/connectNeighbors.py b/connectNeighbors.py
+index 8fcc171..a50dbd5 100755
+--- a/connectNeighbors.py
++++ b/connectNeighbors.py
+@@ -5,10 +5,13 @@ SEPARATOR = '\t'  # The character separating nodes in a line of input
+ 
+ def main(source):
+   edges = read_graph(source)
+-  graph = parse_graph(edges)
+-  print(graph)
+-  remove_duplicates(graph)
+-  print_results(graph)
++  graphs = parse_graph(edges)
++  print(graphs[0])
++  print(graphs[1])
++  remove_duplicates(graphs)
++  print(graphs[0])
++  print(graphs[1])
++  print_results(graphs)
+ 
+ def read_graph(source): 
+   # Iteratre through each line of stdin, stripping trailing whitespace and
+@@ -18,28 +21,40 @@ def read_graph(source):
+   return edges
+ 
+ def parse_graph(edges):
+-  graph = {}
++  ingraph = {}
++  outgraph = {}
+   for [V1, V2] in edges:
+-    graph.setdefault(V1, set()).add(V2)
++    outgraph.setdefault(V1, set()).add(V2)
++    ingraph.setdefault(V2, set()).add(V1)
+     # If V1 is in graph, dereference the list and append, otherwise insert V1
+     # with an empty list as its value and append to that new empty list
+ 
+-  return graph
+-
+-def remove_duplicates(graph):
+-  # Pseudo code for edge inmap, outmap solution
+-  #   for each V1 in inmap.keys()
+-  #     if inmap[V1].size() == 1 && outmap[V1].size() == 1
+-  #       inNode = inmap[V1].pop()
+-  #       outNode = outmap[V1].pop()
+-  #       inmap[outNode].add(inNode)
+-  #       outmap[inNode].add(outNode)
+-  #       remove V1 from inmap and outmap
++  return [outgraph, ingraph] 
+ 
++def remove_duplicates(graphs):
++  ingraph = graphs[0]
++  outgraph = graphs[1]
+   
++  for V1 in ingraph.keys():
++    if V1 in ingraph:
++      check_remove_node(ingraph, outgraph, V1)
++
++def check_remove_node(ingraph, outgraph, node):
++    if len(ingraph[node]) == len(outgraph[node]) == 1:
++      inNode = ingraph.pop(node).pop()
++      outNode = outgraph.pop(node).pop()
++      ingraph[outNode].remove(node)
++      outgraph[inNode].remove(node)
++      if inNode != outNode:
++        ingraph[outNode].add(inNode)
++        outgraph[inNode].add(outNode)
++      else:
++        if len(ingraph[inNode]) == len(outgraph[inNode]) == 0:
++          ingraph.pop(inNode)
++          outgraph.pop(outNode)
++
++def print_results(graphs):
+ 
+-def print_results(graph):
+-  print "Hello"
+ 
+ if __name__ == "__main__":
+   main(sys.stdin)
+-- 
+1.7.11.7
+

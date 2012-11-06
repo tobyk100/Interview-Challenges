@@ -1,0 +1,53 @@
+From a559ef9d4b959ac89f45a813b40c4d2ce6e50b53 Mon Sep 17 00:00:00 2001
+From: Tobias Kahan <tobyk100@uw.edu>
+Date: Thu, 1 Nov 2012 12:24:29 -0700
+Subject: [PATCH 07/17] added main method which calls helper methods.
+
+---
+ connectNeighbors.py | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/connectNeighbors.py b/connectNeighbors.py
+index 82937ac..e17883f 100755
+--- a/connectNeighbors.py
++++ b/connectNeighbors.py
+@@ -3,11 +3,18 @@ import string
+ 
+ SEPARATOR = '\t'  # The character separating nodes in a line of input
+ 
++def main(source):
++  edges = read_graph(source)
++  graph = parse_graph(edges)
++  remove_duplicates(graph)
++  print_results(graph)
++
+ def read_graph(source): 
+   # Iteratre through each line of stdin, stripping trailing whitespace and
+   # splitting on separator 
+   edges = [line.rstrip(string.whitespace).split(SEPARATOR) for line in source]
+-  parse_graph(edges)
++
++  return edges
+ 
+ def parse_graph(edges):
+   graph = {}
+@@ -16,13 +23,13 @@ def parse_graph(edges):
+     # If V1 is in graph, dereference the list and append, otherwise insert V1
+     # with an empty list as its value and append to that new empty list
+ 
+-  print graph
++  return graph
+ 
+ def remove_duplicates(graph):
+-  print "Hello"
++  # Psuedo code, I think this will end up being O(vertices*edges)
+ 
+ def print_results(graph):
+   print "Hello"
+ 
+ if __name__ == "__main__":
+-  read_graph(sys.stdin)
++  main(sys.stdin)
+-- 
+1.7.11.7
+

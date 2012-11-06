@@ -1,0 +1,27 @@
+From c42863f307c784aede762422d4fd7c2a05dfc0a4 Mon Sep 17 00:00:00 2001
+From: Tobias Kahan <tobyk100@uw.edu>
+Date: Thu, 1 Nov 2012 12:29:01 -0700
+Subject: [PATCH 08/17] pseudo code for remove duplicates
+
+---
+ connectNeighbors.py | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/connectNeighbors.py b/connectNeighbors.py
+index e17883f..34aafbc 100755
+--- a/connectNeighbors.py
++++ b/connectNeighbors.py
+@@ -27,6 +27,10 @@ def parse_graph(edges):
+ 
+ def remove_duplicates(graph):
+   # Psuedo code, I think this will end up being O(vertices*edges)
++  # for each key in graph
++  #   if size of corresponding list == 1
++  #     if key appears once as a value
++  #       remove the key and join neighbors
+ 
+ def print_results(graph):
+   print "Hello"
+-- 
+1.7.11.7
+
